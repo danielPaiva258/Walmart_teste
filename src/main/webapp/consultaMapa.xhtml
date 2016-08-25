@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="_template.xhtml">
+
+	<ui:define name="titulo">
+		<p:outputLabel>Consulta de Rotas</p:outputLabel>
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<h:form>
+
+			<p:fieldset legend="Dados da consulta">
+				<p:panelGrid columns="2">
+					<p:outputLabel for="nomeGrafoInputLabel" value="Nome do Grafo:" />
+					<p:inputText id="nomeGrafoInputLabel"
+						value="#{consultaMapaBean.nomeGrafo}" required="true"/>
+
+					<p:outputLabel for="origemInputLabel" value="Origem:" />
+					<p:inputText id="origemInputLabel"
+						value="#{consultaMapaBean.origemNome}" required="true"/>
+
+					<p:outputLabel for="destinoInputLabel" value="Destino:" />
+					<p:inputText id="destinoInputLabel"
+						value="#{consultaMapaBean.destinoNome}" required="true"/>
+
+					<p:outputLabel for="consumoInputLabel" value="Autonomia do veículo(Km/l" />
+					<p:inputText id="consumoInputLabel"
+						value="#{consultaMapaBean.consumo}" required="true" validatorMessage="A autonomia(Km/l) é necessário e deve ser digitado separado por ponto. Ex: 5.3 "/>
+						
+					<p:outputLabel for="precoCombustivelInputLabel" value="Preço Combustivel" />
+					<p:inputText id="precoCombustivelInputLabel"
+						value="#{consultaMapaBean.precoCombustivel}" required="true" validatorMessage="O preço do combustivel é necessário e deve ser digitado separado por ponto. Ex: 5.3 "/>
+				</p:panelGrid>
+				<p:commandButton value="Consultar" id="consultButton"
+					action="#{consultaMapaBean.consulta}" update="@all" />
+					
+			</p:fieldset>
+
+		</h:form>
+
+		<p:fieldset legend="Dados do caminho mais próximo">
+			<p:dataTable id="caminhoTable" value="#{consultaMapaBean.resultado}"
+				var="resultado" emptyMessage="Nenhum caminho encontrado">
+				<p:column headerText="Origem">
+					<p:outputLabel value="#{resultado.cidadeOrigem.nome}" />
+				</p:column>
+
+				<p:column headerText="-->">
+					<p:outputLabel value="-->" />
+				</p:column>
+
+				<p:column headerText="Destino">
+					<p:outputLabel value="#{resultado.cidadeDestino.nome}" />
+				</p:column>
+
+				<p:column headerText="Distancia (Km)">
+					<p:outputLabel value="#{resultado.distancia}" />
+				</p:column>
+				<p:column headerText="Consumo veículo até esse destino (L)">
+					<p:outputLabel value="#{resultado.consumo}" />
+				</p:column>
+
+			</p:dataTable>
+			
+			<p:outputLabel value="Seguindo esse caminho o veículo irá percorrer #{consultaMapaBean.distanciaSomada} Km gerando um custo 
+				de R$#{consultaMapaBean.custoTotal} " rendered="#{consultaMapaBean.jaCalculado}"/>
+		</p:fieldset>
+
+
+	</ui:define>
+
+</ui:composition>
+
+
+</html>
