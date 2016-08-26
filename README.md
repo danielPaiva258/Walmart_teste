@@ -12,7 +12,7 @@
 -substitua os atributos value das tags:<br>
 <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/walmart" /><br>
 <property name="javax.persistence.jdbc.user" value="root" /><br>
-<property name="javax.persistence.jdbc.password" value="root" /><br><br>
+<property name="javax.persistence.jdbc.password" value="root" /><br>
 
 onde a primeira é a url de conexão com o banco de dados (normalmente não precisa alterar)<br>
 a segunda é o usuário que foi configurado na instalação<br>
