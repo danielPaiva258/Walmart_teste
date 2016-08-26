@@ -36,15 +36,55 @@
 						
 					<p:outputLabel for="precoCombustivelInputLabel" value="Preço Combustivel" />
 					<p:inputText id="precoCombustivelInputLabel"
-						value="#{consultaMapaBean.precoCombustivel}" required="true" validatorMessage="O preço do combustivel é necessário e deve ser digitado separado por ponto. Ex: 5.3 "/>
+						value="#{consultaMapaBean.precoCombustivel}" required="true"  validatorMessage="O preço do combustivel é necessário e deve ser digitado separado por ponto. Ex: 5.3 "/>
 				</p:panelGrid>
 				<p:commandButton value="Consultar" id="consultButton"
 					action="#{consultaMapaBean.consulta}" update="@all" />
 					
 			</p:fieldset>
-
-		</h:form>
-
+	<p:fieldset legend="Rotas que não devem ser utilizadas">
+		<p:outputLabel for="radioButtonExcluiRota" value="Há Alguma rotá que não deve ser utilizada?"></p:outputLabel>
+			<p:selectOneRadio id="radioButtonExcluiRota"  value="#{consultaMapaBean.excluiRota}">
+				<f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+				<f:selectItem itemLabel="Não" itemValue="#{false}"/>
+				<f:ajax execute="@this" render="@form"/>
+			</p:selectOneRadio>
+			
+			<p:dataTable id="rotasExcluidas" value="#{consultaMapaBean.rotasExcluidas}" var="rota" editable="true" 
+			  rendered="#{consultaMapaBean.excluiRota}" emptyMessage="Adicione uma linha">
+				<p:column headerText="Origem">
+					<p:inputText  value="#{rota.origem.nome}"/>
+				</p:column>
+				
+				<p:column headerText="Destino">
+					<p:inputText value="#{rota.destino.nome}"/>
+				</p:column>
+				
+			</p:dataTable>
+			<p:commandButton value="Adionar linha" rendered="#{consultaMapaBean.excluiRota}" update="rotasExcluidas"
+    			action="#{consultaMapaBean.addLinhaTabela}"/>
+    	</p:fieldset>
+		
+		
+		<p:fieldset legend="Cidades que devem ser visitadas(Por Ordem de visita)">
+			<p:outputLabel for="radioButtonCidadesParaVisitar" value="Há alguma cidade que deve estar no caminho?" />
+			<p:selectOneRadio id="radioButtonCidadesParaVisitar"  value="#{consultaMapaBean.cidadeVisitar}">
+				<f:selectItem itemLabel="Sim" itemValue="#{true}"/>
+				<f:selectItem itemLabel="Não" itemValue="#{false}"/>
+				<f:ajax execute="@this" render="@form"/>
+			</p:selectOneRadio>
+			
+			<p:dataTable id="cidadesAVisitar" value="#{consultaMapaBean.cidadesQueDevemEstarNoCaminho}" var="cidade" 
+			editable="true" rendered="#{consultaMapaBean.cidadeVisitar}" emptyMessage="Adicione uma linha">
+				<p:column headerText="Cidade">
+					<p:inputText  value="#{cidade.nome}"/>
+				</p:column>
+				
+			</p:dataTable>
+			<p:commandButton value="Adionar linha" rendered="#{consultaMapaBean.cidadeVisitar}" update="cidadesAVisitar"
+    			action="#{consultaMapaBean.addLinhaTabelaCidades}"/>
+		</p:fieldset>
+</h:form>
 		<p:fieldset legend="Dados do caminho mais próximo">
 			<p:dataTable id="caminhoTable" value="#{consultaMapaBean.resultado}"
 				var="resultado" emptyMessage="Nenhum caminho encontrado">

@@ -35,8 +35,6 @@ public class CadastroMapasBean implements Serializable{
 	private List<Cidade> cidades = new ArrayList<Cidade>();
 	@Inject
 	private GrafoDao dao;
-	private DAO<Cidade> daoCidade = new DAO(Cidade.class);
-	private DAO<Rota> daoRota = new DAO(Rota.class);
 	private String nomeGrafo;
 	
 	public List<Rota> getRotas() {
